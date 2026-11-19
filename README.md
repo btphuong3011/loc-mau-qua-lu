@@ -1,6 +1,6 @@
 # Lọc Máu Qua Lũ
 
-Bản demo mô phỏng việc điều phối các buổi lọc máu định kỳ khi cơ sở quen thuộc tạm dừng do mưa lũ. Mở `dist/index.html` bằng trình duyệt để chạy trực tiếp. Bản demo dùng HTML, CSS và JavaScript thuần.
+Bản demo mô phỏng việc điều phối các buổi lọc máu định kỳ khi cơ sở quen thuộc tạm dừng do mưa lũ. Mở [bản demo](https://btphuong3011.github.io/loc-mau-qua-lu/) hoặc mở `index.html` từ bản sao của kho mã. Bản demo dùng HTML, CSS và JavaScript thuần.
 
 ## Trải nghiệm
 
@@ -13,6 +13,6 @@ Nhân vật, cơ sở, phương tiện, năng lực tiếp nhận và lịch đ�
 
 ## Ảnh minh họa
 
-`dist/flood-valley.jpg` được tạo bằng ImageGen và nén lại để tải nhanh. Prompt tạo ảnh:
+`flood-valley.jpg` được tạo bằng ImageGen và nén lại để tải nhanh. Prompt tạo ảnh:
 
 > Use case: photorealistic-natural. Asset type: a wide editorial hero background for a Vietnamese public-health flood planning simulation. Cinematic drone photograph of an overflowing muddy river under low rain clouds in a rural central Vietnamese valley, with a small cluster of red-roofed homes on the right at the foot of forested hills and a modest concrete bridge only in the distant right half. The river on the left can sit behind large white website text, mostly dark atmospheric negative space. The landscape should read even at a 3:1 crop. Deep midnight petrol and pine green, slate-blue clouds, muted silver water and restrained warm red roof accents. Atmospheric and sober, realistic soft monsoon light, premium documentary editorial photography. All fictional geography, no identifiable people, no words, no watermark, no graphics, no collage. Wide landscape.

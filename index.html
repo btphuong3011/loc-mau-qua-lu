@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1a24">
+  <meta name="description" content="Mô phỏng điều phối các buổi lọc máu dự phòng khi mưa lũ làm gián đoạn cơ sở điều trị.">
+  <title>Lọc Máu Qua Lũ</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="model.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lich">Đến lịch điều phối</a>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <a href="#top" class="identity"><span class="brandmark" aria-hidden="true"><i></i></span>Lọc Máu Qua Lũ</a>
+      <span class="demo-label"><span aria-hidden="true"></span>Dữ liệu mô phỏng</span>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-content">
+        <div class="hero-background" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow hero-eyebrow"><i aria-hidden="true"></i> ĐIỀU TRỊ LIÊN TỤC KHI MƯA LŨ</p>
+          <h1 id="hero-title">Lọc Máu <em>Qua Lũ</em></h1>
+          <p class="hero-lede">Cơ sở quen thuộc tạm dừng. Thu xếp chỗ lọc và chuyến đi cho từng người, qua từng buổi.</p>
+          <a class="btn primary hero-cta" href="#lich">Thử điều phối</a>
+        </div>
+        <span class="hero-credit">Ảnh minh họa</span>
+      </div>
+    </section>
+    <section class="wrap workspace" id="lich" aria-labelledby="schedule-title">
+      <header class="workspace-header">
+        <div>
+          <h2 id="schedule-title">Dòng điều trị</h2>
+          <p class="workspace-note">Mỗi đường theo một người. Mỗi điểm là một buổi lọc.</p>
+        </div>
+        <button class="btn quiet reset" id="reset" type="button"><span aria-hidden="true">↻</span> Làm lại</button>
+      </header>
+      <section class="incident" aria-label="Tình huống mô phỏng">
+        <div class="scenario-buttons" id="scenarios" role="group" aria-label="Đổi tình huống"></div>
+        <div class="incident-message">
+          <span class="incident-icon" aria-hidden="true">!</span>
+          <div>
+            <h3 id="incident-title"></h3>
+            <p id="incident-description"></p>
+          </div>
+        </div>
+      </section>
+      <div class="board">
+        <aside class="summary" aria-labelledby="summary-title">
+          <header>
+            <h3 id="summary-title">Tiến độ cả tuần</h3>
+          </header>
+          <div class="summary-body">
+            <div class="week-progress">
+              <div class="progress-ring" id="progress" role="progressbar" aria-label="Buổi đã thu xếp" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">
+                <div><strong id="progress-number">0</strong><span id="progress-total">/ 9</span></div>
+              </div>
+              <p><strong>Buổi đã thu xếp</strong><span id="progress-detail"></span></p>
+            </div>
+            <ul class="people" id="people"></ul>
+            <button class="btn primary summary-action" id="suggest" type="button">
+              <span class="spark-icon" aria-hidden="true"></span> Gợi ý xếp bù
+            </button>
+            <button class="btn outline summary-action" id="handoff" type="button">Xem phiếu bàn giao</button>
+          </div>
+        </aside>
+        <section class="calendar" aria-label="Các buổi lọc trong tuần">
+          <div class="calendar-toolbar">
+            <div class="filters" role="group" aria-label="Lọc danh sách buổi">
+              <button id="filter-all" type="button" aria-pressed="true">Tất cả</button>
+              <button id="filter-pending" type="button" aria-pressed="false">Cần xử lý</button>
+            </div>
+            <button class="btn quiet compare-button" id="compare" type="button" aria-pressed="false" aria-controls="compare-metrics">
+              <span class="compare-icon" aria-hidden="true"></span> So sánh trước–sau
+            </button>
+          </div>
+          <div class="compare-metrics" id="compare-metrics" hidden></div>
+          <div class="schedule-tracks" id="schedule"></div>
+          <p class="calendar-hint">Chọn một điểm để xem hoặc đổi chỗ lọc và chuyến đi.</p>
+        </section>
+      </div>
+      <p class="sr-only" id="updates" role="status"></p>
+    </section>
+    <noscript><p class="wrap noscript">Bật JavaScript để sử dụng lịch tương tác.</p></noscript>
+  </main>
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p>Mô phỏng dùng nhân vật, cơ sở và lịch hư cấu. Việc tiếp nhận và lịch điều trị thực tế do nhân viên y tế quyết định.</p>
+    </div>
+  </footer>
+  <dialog class="dialog" id="edit-dialog" aria-labelledby="edit-title">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow section-kicker" id="edit-day"></p>
+        <h2 id="edit-title"></h2>
+      </div>
+      <form method="dialog"><button class="btn icon-button" aria-label="Đóng" type="submit">×</button></form>
+    </div>
+    <form id="edit-form" class="edit-form">
+      <fieldset>
+        <legend>Chỗ lọc dự phòng</legend>
+        <div class="options" id="slot-options"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Chuyến đi</legend>
+        <div class="options" id="trip-options"></div>
+      </fieldset>
+      <p class="dialog-note" id="plan-message" role="status"></p>
+      <div class="dialog-actions">
+        <button class="btn quiet" id="clear-plan" type="button">Bỏ phương án</button>
+        <button class="btn primary" id="confirm-plan" type="submit">Xác nhận phương án</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog class="dialog handoff-dialog" id="handoff-dialog" aria-labelledby="handoff-title">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow section-kicker">TÌNH HUỐNG MÔ PHỎNG</p>
+        <h2 id="handoff-title">Phiếu bàn giao</h2>
+      </div>
+      <form method="dialog"><button class="btn icon-button" aria-label="Đóng" type="submit">×</button></form>
+    </div>
+    <div class="handoff-content" id="handoff-content"></div>
+    <div class="dialog-actions handoff-actions">
+      <button class="btn primary" id="download-handoff" type="button">Tải phiếu (.txt)</button>
+    </div>
+  </dialog>
+  <dialog class="dialog suggestion-dialog" id="suggestion-dialog" aria-labelledby="suggestion-title">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow section-kicker" id="suggestion-scenario"></p>
+        <h2 id="suggestion-title">Gợi ý xếp bù</h2>
+      </div>
+      <form method="dialog"><button class="btn icon-button" aria-label="Đóng" type="submit">×</button></form>
+    </div>
+    <div class="handoff-content" id="suggestion-content"></div>
+    <div class="dialog-actions handoff-actions">
+      <button class="btn primary" id="apply-suggestion" type="button">Áp dụng trong mô phỏng</button>
+    </div>
+  </dialog>
+</body>
+</html>
